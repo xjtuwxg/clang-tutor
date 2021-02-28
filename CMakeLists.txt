@@ -28,6 +28,13 @@ list(APPEND CMAKE_PREFIX_PATH "${CT_LLVM_INSTALL_DIR}/lib/cmake/llvm/")
 list(APPEND CMAKE_PREFIX_PATH "${CT_LLVM_INSTALL_DIR}/lib/cmake/clang/")
 
 find_package(Clang REQUIRED CONFIG)
+
+# As Clang does not communicate it's version via its CMake scripts, we need to
+# check LLVM instead.
+if(NOT "12" VERSION_EQUAL "${LLVM_VERSION_MAJOR}")
+  message(FATAL_ERROR "Found Clang ${LLVM_VERSION_MAJOR}, but need Clang 12")
+endif()
+
 message(STATUS "Found Clang ${LLVM_PACKAGE_VERSION}")
 message(STATUS "Using ClangConfig.cmake in: ${CT_LLVM_INSTALL_DIR}")
 
